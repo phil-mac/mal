@@ -1,0 +1,30 @@
+{
+  "name": "mal",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/kanaka/mal.svg?branch=master)](https://travis-ci.org/kanaka/mal)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phil-mac/mal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phil-mac/mal/issues"
+  },
+  "homepage": "https://github.com/phil-mac/mal#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "node": "^12.22.11"
+  },
+  "keywords": []
+}
