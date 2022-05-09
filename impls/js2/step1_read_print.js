@@ -11,13 +11,6 @@ function READ (input) {
 }
 
 function EVAL (input) {
-  if (typeof input === 'string') {
-    if (/^".*"$/g.test(input)) {
-      return input.slice(1, -1);
-    } else {
-      return input;
-    } 
-  } 
   return input;
 }
 

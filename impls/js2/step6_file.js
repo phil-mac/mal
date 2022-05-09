@@ -91,10 +91,12 @@ function eval_ast (ast, env) {
   if (typeof ast === 'string') {
     if (/^".*"$/g.test(ast) || /[\r\n]/gm.test(ast)) {
       // console.log("found string")
-      const sliced = ast.slice(1, -1);
+      // const sliced = ast.slice(1, -1);
       // console.log('sliced: ', sliced);
       // console.log({sliced})
-      return sliced;
+      // return sliced;
+
+      return ast;
     } else {
       return env.get(ast);
     } 

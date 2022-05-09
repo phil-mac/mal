@@ -83,8 +83,8 @@ function read_atom (reader) {
     // return token.slice(1, -1);
     return token
       .replace(/\\"/g, '"')
-      .replace(/\\\\/g, '\\')
-      .replace(/\\n/g, '\n');
+      .replace(/\\n/g, '\n')
+      .replace(/\\\\/g, '\\');
     return token;
   } else {
     return token;
