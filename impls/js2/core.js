@@ -38,7 +38,7 @@ const ns = {
     return null;
   },
   'read-string': (input) => {
-    // input = input.replace(/\\\\"/g, '\\"');
+    input = input.replace(/\\\\"/g, '\\"');
     return reader.read_str(input);
   },
   // 'read-string': (input) => reader.read_str(input.replace(/\\\\/g, '\\')),

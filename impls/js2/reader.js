@@ -15,12 +15,12 @@ function read_str (input) {
   // console.log("read_srt input:", input)
   // console.log({input})
   
-  input2 = input.replace(/\\\\"/g, '\\"')
+  // input2 = input.replace(/\\\\"/g, '\\"')
   // input2 = input2.replace(/\\"/g, '"')
 
   // console.log("read_srt input:", input2)
   // console.log({input2})
-  const reader = new Reader(tokenize(input2));
+  const reader = new Reader(tokenize(input));
   return read_form(reader);
 }
 

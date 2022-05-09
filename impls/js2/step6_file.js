@@ -111,7 +111,6 @@ function PRINT (input) {
 }
 
 function rep (input) {
-  const evaled = EVAL()
   return PRINT(EVAL(READ(input), repl_env));
 }
 
