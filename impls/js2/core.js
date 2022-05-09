@@ -38,7 +38,21 @@ const ns = {
     return null;
   },
   'read-string': (input) => {
-    input = input.replace(/\\\\"/g, '\\"');
+
+    // console.log("raw input: ", {input})
+    input = input.slice(1, -1)
+    // .replace(/[\r\n]/gm, 'n')
+    // input = input
+      // .replace(/\\"/g, '"')
+      // .replace(/\\n/g, 'n')
+      // .replace(/\\\\/g, '\\')
+
+    // console.log("processed input: ", {input})
+    
+  // input2 = input.replace(/\\\\"/g, '\\"')
+  // input2 = input2.replace(/\\"/g, '"')
+
+    // console.log("refined input: ", {input})
     return reader.read_str(input);
   },
   // 'read-string': (input) => reader.read_str(input.replace(/\\\\/g, '\\')),

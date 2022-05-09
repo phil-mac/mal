@@ -12,13 +12,25 @@ const Reader = function (tokens) {
 }
 
 function read_str (input) {
-  // console.log("read_srt input:", input)
+  // console.log("read_srt raw input:", {input})
   // console.log({input})
+
+  // input = input.replace(/\\"/g, '"')
+  //     .replace(/\\n/g, '\n')
+  //     .replace(/\\\\/g, '\\');
+
+
   
-  // input2 = input.replace(/\\\\"/g, '\\"')
+  input = input
+      .replace(/\\\\/g, '\\')
+      // .replace(/\\"/g, '"')
+      // .replace(/\\n/g, '\n')
+  
+  
+  
   // input2 = input2.replace(/\\"/g, '"')
 
-  // console.log("read_srt input:", input2)
+  // console.log("read_srt processed input:", {input})
   // console.log({input2})
   const reader = new Reader(tokenize(input));
   return read_form(reader);
@@ -53,9 +65,12 @@ function read_form (reader) {
 }
 
 function read_list (reader, results) {
-  if (results === undefined){
+  if (results === undefined) {
     return read_list(reader, [])
   } else {
+    if (reader.peek() === undefined){
+      throw new Error('Error: unbalanced parentheses')
+    }
     const token = read_form(reader);
     if (token === ')') {
       return results; 
@@ -68,7 +83,7 @@ function read_list (reader, results) {
 
 function read_atom (reader) {
   const token = reader.next();
-  // console.log("read_atom token: ", token)
+  // console.log("read_atom token: ", {token})
   const float = parseFloat(token);
   if (!isNaN(float)){
     return float;
@@ -81,10 +96,13 @@ function read_atom (reader) {
   } else if (/^".*"$/g.test(token)) {
     // console.log('read_atom found string')
     // return token.slice(1, -1);
-    return token
+    const newToken = token
       .replace(/\\"/g, '"')
-      .replace(/\\n/g, '\n')
-      .replace(/\\\\/g, '\\');
+      // .replace(/\\\\n/g, '\n')
+      // .replace(/\\\\/g, '\\');
+    // console.log({newToken})
+    
+    return newToken;
     return token;
   } else {
     return token;

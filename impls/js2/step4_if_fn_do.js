@@ -62,7 +62,7 @@ function EVAL (ast, env) {
 function eval_ast (ast, env) {
   if (typeof ast === 'string') {
     if (/^".*"$/g.test(ast)) {
-      return ast.slice(1, -1);
+      return ast;
     } else {
       return env.get(ast);
     } 

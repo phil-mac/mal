@@ -27,7 +27,11 @@ function repl () {
     if (input === 'exit'){
       return;
     }
-    console.log(rep(input));
+    try {
+      console.log(rep(input));
+    } catch (e) {
+      console.log(e.message);
+    }
     repl();
   })
 }
