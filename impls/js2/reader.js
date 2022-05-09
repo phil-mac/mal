@@ -12,20 +12,37 @@ const Reader = function (tokens) {
 }
 
 function read_str (input) {
-  const reader = new Reader(tokenize(input));
+  // console.log("read_srt input:", input)
+  // console.log({input})
+  
+  input2 = input.replace(/\\\\"/g, '\\"')
+  // input2 = input2.replace(/\\"/g, '"')
+
+  // console.log("read_srt input:", input2)
+  // console.log({input2})
+  const reader = new Reader(tokenize(input2));
   return read_form(reader);
 }
 
 function tokenize (input) {
+  // console.log('tokenize input: ', input)
+  // console.log('tokenize input: ', {input})
+      
+  // console.log('tokenize input after: ', input)
+  // console.log('tokenize input after: ', {input})
+  
   const regex = /[\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"?|;.*|[^\s\[\]{}('"`,;)]+)/g;
 
   const groups = [...input.matchAll(regex)].map(match => match[1]);
 
+  // console.log({groups})
   return groups;
 }
 
 function read_form (reader) {
-  if (reader.peek()[0] === '(') {
+  if (reader.peek()[0] === '@') {
+    return ['deref', read_form(reader)];
+  } else if (reader.peek()[0] === '(') {
     reader.next();
     return read_list(reader);
   } else {
@@ -62,7 +79,12 @@ function read_atom (reader) {
   } else if (token === 'false') {
     return false;
   } else if (/^".*"$/g.test(token)) {
+    // console.log('read_atom found string')
     // return token.slice(1, -1);
+    return token
+      .replace(/\\"/g, '"')
+      .replace(/\\\\/g, '\\')
+      .replace(/\\n/g, '\n');
     return token;
   } else {
     return token;
@@ -70,33 +92,3 @@ function read_atom (reader) {
 }
 
 exports.read_str = read_str;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

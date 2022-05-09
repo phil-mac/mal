@@ -1,3 +1,6 @@
+const reader = require('./reader');
+const fs = require('fs');
+
 const ns = {
   '+': (a, b) => a + b,
   '-': (a, b) => a - b,
@@ -7,6 +10,7 @@ const ns = {
   '<=': (a, b) => a <= b,
   '>': (a, b) => a > b,
   '>=': (a, b) => a >= b,
+  'str': (...params) => params.join(''),
   'list': (...params) => params,
   'list?': (list) => list instanceof Array,
   'empty?': (list) => list.length === 0,
@@ -33,7 +37,25 @@ const ns = {
     // PMTODO: something with `print_readably`? 
     return null;
   },
-  
+  'read-string': (input) => {
+    // input = input.replace(/\\\\"/g, '\\"');
+    return reader.read_str(input);
+  },
+  // 'read-string': (input) => reader.read_str(input.replace(/\\\\/g, '\\')),
+  'slurp': (filename) =>  fs.readFileSync(filename, 'utf8'),
+  'atom': (val) => ({val}),
+  'atom?': (input) => typeof input === 'object' ? "val" in input : false,
+  'deref': (atom) => atom.val,
+  'reset!': (atom, newVal) => atom.val = newVal,
+  'swap!': (atom, fnObj, ...args) => {
+    const fn = typeof fnObj === 'function' ? fnObj : fnObj.fn;
+    atom.val = fn.apply(undefined, [atom.val, ...args]);
+    return atom.val;
+  },
+  'cons': (item, list) => [item, ...list],
+  'concat': (first, ...rest) => !!first && 
+    first instanceof Array && 
+    first.concat(...rest)
 };
 
 exports.ns = ns;

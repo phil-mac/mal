@@ -46,11 +46,11 @@ function EVAL (ast, env) {
 
 function eval_ast (ast, env) {
   if (typeof ast === 'string') {
-    if (env.find(ast)) {
-      return env.get(ast);
+    if (/^".*"$/g.test(ast)) {
+      return ast.slice(1, -1);
     } else {
-      return x => x
-    }
+      return env.get(ast);
+    } 
   } else if (ast instanceof Array) {
     return ast.map(node => EVAL(node, env));
   } else {
@@ -71,7 +71,11 @@ function repl () {
     if (input === 'exit'){
       return;
     }
-    console.log(rep(input));
+    try {
+      console.log(rep(input));
+    } catch (e) {
+      console.log(e.message);
+    }
     repl();
   })
 }

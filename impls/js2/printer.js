@@ -1,4 +1,6 @@
 function pr_str(data) {
+  // console.log('pr_str data: ', data);
+  // console.log('pr_str data: ', {data});
   if (typeof data === 'number'){
     return data.toString();
   } else if (data === null) {
@@ -10,10 +12,17 @@ function pr_str(data) {
   } else if (typeof data === 'function') {
     return '#<function>';
   } else if (typeof data === 'string') {
-    return data; // pmtodo: change this to handle symbols 
+    // pmtodo: change this to handle symbols? 
+    // console.log("printer found string!")
+    return data
+      .replace(/\\/g, '\\\\')
+      .replace(/[\r\n]/gm, '\\n')
+      // .replace(/"/g, '\"'); 
   } else if (data instanceof Array){
     const parts = data.map(part => pr_str(part));
     return `(${parts.join(' ')})`;
+  } else if (typeof data === 'object' && 'val' in data) {
+    return `(atom ${data.val})`;
   }
 }
 

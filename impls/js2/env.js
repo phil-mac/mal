@@ -11,7 +11,11 @@ function Env (outer, binds, exprs) {
   }
   this.get = sym => {
     const env = this.find(sym);
-    return !!env ? env.data[sym] : null;
+    if (!!env){
+      return env.data[sym];
+    } else {
+      throw new Error(`${sym} not found.`);
+    }
   }
   if (binds && exprs && binds.length === exprs.length){
     binds.forEach((symbol, i) => {
