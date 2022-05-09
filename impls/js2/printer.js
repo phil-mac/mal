@@ -12,15 +12,18 @@ function pr_str(data) {
   } else if (typeof data === 'function') {
     return '#<function>';
   } else if (typeof data === 'string') {
-    // pmtodo: change this to handle symbols? 
-    // console.log("printer found string!")
-    data = data.slice(1, -1);
+    // pmtodo: change this to better handle symbols? 
     // console.log("pr_str string: ", {data})
-    data = data
-      .replace(/\\/g, '\\\\')
-      .replace(/[\r\n]/gm, '\\n')
-      .replace(/"/g, '\\"'); 
-    return `"${data}"`;
+    if (/^".*"$/g.test(data)){
+      data = data.slice(1, -1);
+    
+      data = data
+        .replace(/\\/g, '\\\\')
+        .replace(/[\r\n]/gm, '\\n')
+        .replace(/"/g, '\\"'); 
+      return `"${data}"`;
+    }
+    return data;
   } else if (data instanceof Array){
     const parts = data.map(part => pr_str(part));
     return `(${parts.join(' ')})`;
