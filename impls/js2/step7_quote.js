@@ -19,7 +19,6 @@ function READ (input) {
 }
 
 function EVAL (ast, env) {
-  // console.log('EVAL ast: ', ast);
   while (true) {
     if (! (ast instanceof Array)) {
       return eval_ast(ast, env);
@@ -68,7 +67,7 @@ function EVAL (ast, env) {
       case 'quote':
         return ast[1];
       case 'quasiquote':
-        ast = quasiquote[ast[1]];
+        ast = quasiquote(ast[1]);
         continue;
       case 'quasiquoteexpand':
         return quasiquote(ast[1]);
@@ -89,17 +88,18 @@ function quasiquote (ast) {
   if (ast instanceof Array && ast[0] === 'unquote') {
     return ast[1];
   } else if (ast instanceof Array) {
-    // whole shebang
     let result = [];
-    ast.forEach(elt => {
+    for (let i = ast.length - 1; i >= 0; i--) {
+      const elt = ast[i];
       if (elt instanceof Array && elt[0] === 'splice-unquote'){
         result = ['concat', elt[1], result];
       } else {
+        
         result = ['cons', quasiquote(elt), result];
       }
-    })
+    }
     return result;
-  } else if (typeof ast === 'object' ) { // map OR symbol
+  } else if (typeof ast === 'object' || (typeof ast === 'string' && !/^".*"$/g.test(ast))) { // map OR symbol
     return ['quote', ast];
   } else {
     return ast;
@@ -109,7 +109,7 @@ function quasiquote (ast) {
 function eval_ast (ast, env) {
   if (typeof ast === 'string') {
     if (/^".*"$/g.test(ast)) {
-      return ast.slice(1, -1);
+      return ast;
     } else {
       return env.get(ast);
     } 

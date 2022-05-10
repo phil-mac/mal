@@ -15,16 +15,12 @@ const readline = require('readline').createInterface({
 });
 
 function READ (input) {
-  // console.log('READ input: ', input)
-  // console.log('READ input: ', {input})
   return reader.read_str(input);
 }
 
 function EVAL (ast, env) {
-  // console.log('EVAL ast: ', ast);
   while (true) {
     if (! (ast instanceof Array)) {
-        // console.log('return from ! ast inof array')
       return eval_ast(ast, env);
     }
     if (ast.length === 0) {
@@ -70,12 +66,8 @@ function EVAL (ast, env) {
         } 
       default:
         const [f, ...args] = eval_ast(ast, env);
-        // console.log('continue default')
         if (typeof f === 'function'){
-          // console.log('apply')
           const applied = f.apply(undefined, args)
-          // console.log('applied: ', applied);
-          // console.log({applied})
           return applied;
         } else {
           ast = f.ast;
@@ -87,15 +79,8 @@ function EVAL (ast, env) {
 }
 
 function eval_ast (ast, env) {
-  // console.log("eval_ast: ", ast)
   if (typeof ast === 'string') {
-    if (/^".*"$/g.test(ast) || /[\r\n]/gm.test(ast)) {
-      // console.log("found string")
-      // const sliced = ast.slice(1, -1);
-      // console.log('sliced: ', sliced);
-      // console.log({sliced})
-      // return sliced;
-
+    if (/^".*"$/g.test(ast)) {
       return ast;
     } else {
       return env.get(ast);
@@ -108,7 +93,6 @@ function eval_ast (ast, env) {
 }
 
 function PRINT (input) {
-  // console.log("PRINT input: ", input);
   return printer.pr_str(input);
 }
 
@@ -124,9 +108,7 @@ function repl () {
       return;
     }
     try {
-      const output = rep(input);
-      console.log(output);
-      console.log({output});
+      console.log(rep(input));
     } catch (e) {
       console.log(e.message);
     }

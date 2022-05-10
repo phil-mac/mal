@@ -10,7 +10,13 @@ const ns = {
   '<=': (a, b) => a <= b,
   '>': (a, b) => a > b,
   '>=': (a, b) => a >= b,
-  'str': (...params) => params.join(''),
+  'str': (...params) => {
+    let newString = params.join('');
+    if (!/^".*"$/gs.test(newString)){
+      newString = `"${newString}"`
+    }
+    return newString;
+  },
   'list': (...params) => params,
   'list?': (list) => list instanceof Array,
   'empty?': (list) => list.length === 0,
@@ -58,9 +64,12 @@ const ns = {
     return atom.val;
   },
   'cons': (item, list) => [item, ...list],
-  'concat': (first, ...rest) => !!first && 
-    first instanceof Array && 
-    first.concat(...rest)
+  'concat': (first, ...rest) => {
+    if (!!first && first instanceof Array){
+      return first.concat(...rest);
+    } else 
+      return [];
+  }
 };
 
 exports.ns = ns;
