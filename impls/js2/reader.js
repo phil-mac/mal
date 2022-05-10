@@ -12,42 +12,17 @@ const Reader = function (tokens) {
 }
 
 function read_str (input) {
-  // console.log("read_srt raw input:", {input})
-  // console.log({input})
-
-  // input = input.replace(/\\"/g, '"')
-  //     .replace(/\\n/g, '\n')
-  //     .replace(/\\\\/g, '\\');
-
-
-  
   input = input
       .replace(/\\\\/g, '\\')
-      // .replace(/\\"/g, '"')
-      // .replace(/\\n/g, '\n')
-  
-  
-  
-  // input2 = input2.replace(/\\"/g, '"')
-
-  // console.log("read_srt processed input:", {input})
-  // console.log({input2})
   const reader = new Reader(tokenize(input));
   return read_form(reader);
 }
 
 function tokenize (input) {
-  // console.log('tokenize input: ', input)
-  // console.log('tokenize input: ', {input})
-      
-  // console.log('tokenize input after: ', input)
-  // console.log('tokenize input after: ', {input})
-  
   const regex = /[\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"?|;.*|[^\s\[\]{}('"`,;)]+)/g;
 
   const groups = [...input.matchAll(regex)].map(match => match[1]);
 
-  // console.log({groups})
   return groups;
 }
 
@@ -83,7 +58,6 @@ function read_list (reader, results) {
 
 function read_atom (reader) {
   let token = reader.next();
-  // console.log("read_atom token: ", {token})
   const float = parseFloat(token);
   if (!isNaN(float)){
     return float;
@@ -94,19 +68,11 @@ function read_atom (reader) {
   } else if (token === 'false') {
     return false;
   } else if (/^".*"$/g.test(token)) {
-    console.log('read_atom found string token: ', {token})
-    console.log('read_atom found string token: ', token)
     token = token.slice(1, -1);
     token = token
       .replace(/\\"/g, '"')
       .replace(/\\n/g, '\n')
-
-    console.log('token before wrapping in quotes: ', {token})
-    
     token = `"${token}"`
-      // .replace(/\\\\/g, '\\');
-    console.log('token after read_atom: ', {token})
-    console.log('token after read_atom: ', token)
     
     return token;
   } else {

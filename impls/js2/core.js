@@ -38,27 +38,16 @@ const ns = {
     return null;
   },
   'read-string': (input) => {
-
-    // console.log("raw input: ", {input})
-    
     input = input.slice(1, -1)
-    
-    // .replace(/[\r\n]/gm, 'n')
-    // input = input
-      // .replace(/\\"/g, '"')
-      // .replace(/\\n/g, 'n')
-      // .replace(/\\\\/g, '\\')
-
-    // console.log("processed input: ", {input})
-    
-  // input2 = input.replace(/\\\\"/g, '\\"')
-  // input2 = input2.replace(/\\"/g, '"')
-
-    // console.log("refined input: ", {input})
     return reader.read_str(input);
   },
-  // 'read-string': (input) => reader.read_str(input.replace(/\\\\/g, '\\')),
-  'slurp': (filename) =>  fs.readFileSync(filename, 'utf8'),
+  'slurp': (filename) =>  { 
+    console.log({filename})
+    filename = filename.slice(1, -1);
+    filename = filename.replace('..', '..')
+    console.log({filename})
+    return `"${fs.readFileSync(filename, 'utf8')}"`;
+  },
   'atom': (val) => ({val}),
   'atom?': (input) => typeof input === 'object' ? "val" in input : false,
   'deref': (atom) => atom.val,

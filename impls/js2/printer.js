@@ -1,6 +1,4 @@
 function pr_str(data) {
-  // console.log('pr_str data: ', data);
-  // console.log('pr_str data: ', {data});
   if (typeof data === 'number'){
     return data.toString();
   } else if (data === null) {
@@ -13,10 +11,7 @@ function pr_str(data) {
     return '#<function>';
   } else if (typeof data === 'string') {
     // pmtodo: change this to better handle symbols? 
-    console.log("pr_str string: ", {data})
-    console.log("hi?")
     if (/^".*"$/gs.test(data)){
-      console.log("yo")
       data = data.slice(1, -1);
     
       data = data
@@ -24,9 +19,6 @@ function pr_str(data) {
         .replace(/[\r\n]/gm, '\\n')
         .replace(/"/g, '\\"'); 
 
-      console.log("hello?")
-      // return data;
-      console.log("data to print: ", {data})
       return `"${data}"`;
     }
     return data;
@@ -39,7 +31,3 @@ function pr_str(data) {
 }
 
 exports.pr_str = pr_str;
-
-// console.log(pr_str(['inc', ['first', [2, 3, 4]]]));
-// console.log("---");
-// console.log(pr_str([ 'let*', [ 'c', false ], 'c' ]));
