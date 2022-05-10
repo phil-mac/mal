@@ -13,15 +13,20 @@ function pr_str(data) {
     return '#<function>';
   } else if (typeof data === 'string') {
     // pmtodo: change this to better handle symbols? 
-    // console.log("pr_str string: ", {data})
-    if (/^".*"$/g.test(data)){
+    console.log("pr_str string: ", {data})
+    console.log("hi?")
+    if (/^".*"$/gs.test(data)){
+      console.log("yo")
       data = data.slice(1, -1);
     
       data = data
         .replace(/\\/g, '\\\\')
         .replace(/[\r\n]/gm, '\\n')
         .replace(/"/g, '\\"'); 
+
+      console.log("hello?")
       // return data;
+      console.log("data to print: ", {data})
       return `"${data}"`;
     }
     return data;

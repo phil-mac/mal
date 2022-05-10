@@ -40,7 +40,9 @@ const ns = {
   'read-string': (input) => {
 
     // console.log("raw input: ", {input})
+    
     input = input.slice(1, -1)
+    
     // .replace(/[\r\n]/gm, 'n')
     // input = input
       // .replace(/\\"/g, '"')

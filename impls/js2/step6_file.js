@@ -126,6 +126,7 @@ function repl () {
     try {
       const output = rep(input);
       console.log(output);
+      console.log({output});
     } catch (e) {
       console.log(e.message);
     }

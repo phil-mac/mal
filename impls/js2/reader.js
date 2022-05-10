@@ -82,7 +82,7 @@ function read_list (reader, results) {
 }
 
 function read_atom (reader) {
-  const token = reader.next();
+  let token = reader.next();
   // console.log("read_atom token: ", {token})
   const float = parseFloat(token);
   if (!isNaN(float)){
@@ -94,15 +94,20 @@ function read_atom (reader) {
   } else if (token === 'false') {
     return false;
   } else if (/^".*"$/g.test(token)) {
-    // console.log('read_atom found string')
-    // return token.slice(1, -1);
-    const newToken = token
+    console.log('read_atom found string token: ', {token})
+    console.log('read_atom found string token: ', token)
+    token = token.slice(1, -1);
+    token = token
       .replace(/\\"/g, '"')
-      // .replace(/\\\\n/g, '\n')
-      // .replace(/\\\\/g, '\\');
-    // console.log({newToken})
+      .replace(/\\n/g, '\n')
+
+    console.log('token before wrapping in quotes: ', {token})
     
-    return newToken;
+    token = `"${token}"`
+      // .replace(/\\\\/g, '\\');
+    console.log('token after read_atom: ', {token})
+    console.log('token after read_atom: ', token)
+    
     return token;
   } else {
     return token;
