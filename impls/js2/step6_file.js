@@ -80,7 +80,7 @@ function EVAL (ast, env) {
 
 function eval_ast (ast, env) {
   if (typeof ast === 'string') {
-    if (/^".*"$/g.test(ast)) {
+    if (/^".*"$/gs.test(ast)) {
       return ast;
     } else {
       return env.get(ast);

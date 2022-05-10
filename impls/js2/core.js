@@ -48,10 +48,7 @@ const ns = {
     return reader.read_str(input);
   },
   'slurp': (filename) =>  { 
-    console.log({filename})
     filename = filename.slice(1, -1);
-    filename = filename.replace('..', '..')
-    console.log({filename})
     return `"${fs.readFileSync(filename, 'utf8')}"`;
   },
   'atom': (val) => ({val}),

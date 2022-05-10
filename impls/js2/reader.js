@@ -27,16 +27,29 @@ function tokenize (input) {
 }
 
 function read_form (reader) {
-  if (reader.peek()[0] === '@') {
-    return ['deref', read_form(reader)];
-  } else if (reader.peek()[0] === '(') {
-    reader.next();
-    return read_list(reader);
-  } else {
-    return read_atom(reader);    
+  const token = reader.peek();
+  switch (token) {
+    case '(':
+      reader.next();
+      return read_list(reader);
+    case '@':
+      reader.next();
+      return ['deref', read_form(reader)];
+    case "'":
+      reader.next();
+      return ['quote', read_form(reader)]
+    case "`":
+      reader.next();
+      return ['quasiquote', read_form(reader)]
+    case "~":
+      reader.next();
+      return ['unquote', read_form(reader)]
+    case "~@":
+      reader.next();
+      return ['splice-unquote', read_form(reader)]
+    default:
+      return read_atom(reader);    
   }
-
-  // return mal data type ??
 }
 
 function read_list (reader, results) {
