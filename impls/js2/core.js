@@ -66,6 +66,24 @@ const ns = {
       return first.concat(...rest);
     } else 
       return [];
+  },
+  'nth': (list, index) => {
+    if (list instanceof Array && list.length > index) {
+      return list[index];
+    }
+    throw new Error('Error: index out of range')
+  },
+  'first': (list) => {
+    if (list instanceof Array && list.length > 0) {
+      return list[0];
+    }
+    return null;
+  },
+  'rest': (list) => {
+    if (list instanceof Array && list.length > 1) {
+      return list.slice(1);
+    }
+    return [];
   }
 };
 

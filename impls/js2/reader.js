@@ -12,18 +12,14 @@ const Reader = function (tokens) {
 }
 
 function read_str (input) {
-  input = input
-      .replace(/\\\\/g, '\\')
+  input = input.replace(/\\\\/g, '\\');
   const reader = new Reader(tokenize(input));
   return read_form(reader);
 }
 
 function tokenize (input) {
   const regex = /[\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"?|;.*|[^\s\[\]{}('"`,;)]+)/g;
-
-  const groups = [...input.matchAll(regex)].map(match => match[1]);
-
-  return groups;
+  return [...input.matchAll(regex)].map(match => match[1]);
 }
 
 function read_form (reader) {
@@ -82,12 +78,8 @@ function read_atom (reader) {
     return false;
   } else if (/^".*"$/g.test(token)) {
     token = token.slice(1, -1);
-    token = token
-      .replace(/\\"/g, '"')
-      .replace(/\\n/g, '\n')
-    token = `"${token}"`
-    
-    return token;
+    token = token.replace(/\\"/g, '"').replace(/\\n/g, '\n');
+    return `"${token}"`;
   } else {
     return token;
   }

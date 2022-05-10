@@ -3,16 +3,16 @@ const printer = require('./printer');
 const { Env } = require('./env');
 const core = require('./core');
 
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
 const repl_env = new Env();
 for (let [key, value] of Object.entries(core.ns)) {
   repl_env.set(key, value);
 }  
 repl_env.set('eval', (ast) => EVAL(ast, repl_env));
-
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
 
 function READ (input) {
   return reader.read_str(input);
@@ -128,7 +128,7 @@ function quasiquote (ast) {
       }
     }
     return result;
-  } else if (typeof ast === 'string' && !/^".*"$/gs.test(ast)) { // map OR symbol
+  } else if (typeof ast === 'string' && !/^".*"$/gs.test(ast)) {
     return ['quote', ast];
   } else {
     return ast;
